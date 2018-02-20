@@ -27,6 +27,3 @@ class Timer:
         if self.timer is not None:
             self.timer.cancel()
 
-    def reset_timer(self):
-        self.cancel_timer()
-        self.start_timer()
