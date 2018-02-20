@@ -1,12 +1,8 @@
-import logging
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
 class Sessions(object):
 
-    pending = {}
-    completed = 0
+    def __init__(self):
+        self.pending = {}
+        self.completed = 0
 
     def add(self, key, val):
         self.pending[key] = val
