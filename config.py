@@ -9,5 +9,5 @@ class Config(object):
         Header.x_sumo_category: 'metrics_sla_lambda_category'
     }
     sleep_interval = 0.1
-    request_interval = 0.1
-    number_requests = 600
+    request_interval = 1
+    number_requests = 60
