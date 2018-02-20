@@ -41,8 +41,8 @@ class Feeder(object):
     def send(self):
         timestamp = time.time()
         body = "metric=metrics-sla  %d " % self.sessions.completed + str(int(timestamp))
-        logger.info("sending request %s ", body)
+        logger.debug("sending request %s ", body)
         self.sessions.add(timestamp, body)
         response = requests.post(self.url, data=self.encode(body), headers=Config.headers)
         self.sessions.delete(timestamp)
-        logger.info("finishing request %s with %s", body, str(response))
+        logger.debug("finishing request %s with %s", body, str(response))
