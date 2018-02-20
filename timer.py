@@ -1,7 +1,5 @@
 import threading
 
-# Timer is used to create perodic tasks
-
 class Timer:
 
     def __init__(self, interval, task):

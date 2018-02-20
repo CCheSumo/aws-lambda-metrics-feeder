@@ -11,9 +11,10 @@ logger.setLevel(logging.INFO)
 
 class Feeder(object):
 
-    def __init__(self):
+    def __init__(self, url):
         self.timer = Timer(Config.request_interval, self.task)
         self.sessions = Sessions()
+        self.url = url
         self.start()
 
     def __del__(self):
@@ -39,9 +40,9 @@ class Feeder(object):
 
     def send(self):
         timestamp = time.time()
-        body = "metric=sla  deployment=stag region=us-west-1 100 " + str(int(timestamp))
+        body = "metric=metrics-sla  %d " % self.sessions.completed + str(int(timestamp))
         logger.info("sending request %s ", body)
         self.sessions.add(timestamp, body)
-        response = requests.post(Config.url, data=self.encode(body), headers=Config.headers)
+        response = requests.post(self.url, data=self.encode(body), headers=Config.headers)
         self.sessions.delete(timestamp)
         logger.info("finishing request %s with %s", body, str(response))
