@@ -26,4 +26,3 @@ class Timer:
     def cancel_timer(self):
         if self.timer is not None:
             self.timer.cancel()
-

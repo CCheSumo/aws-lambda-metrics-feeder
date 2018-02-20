@@ -15,6 +15,7 @@ class Feeder(object):
         self.timer = Timer(Config.request_interval, self.task)
         self.sessions = Sessions()
         self.url = url
+        self.timestamp = int(time.time())
         self.start()
 
     def __del__(self):
@@ -39,10 +40,10 @@ class Feeder(object):
             self.stop()
 
     def send(self):
-        timestamp = time.time()
-        body = "metric=metrics-sla  %d " % self.sessions.completed + str(int(timestamp))
+        index = self.sessions.completed
+        body = "metric=metrics-sla  %d %d" % (index, int(self.timestamp + index))
         logger.debug("sending request %s ", body)
-        self.sessions.add(timestamp, body)
+        self.sessions.add(index, body)
         response = requests.post(self.url, data=self.encode(body), headers=Config.headers)
-        self.sessions.delete(timestamp)
-        logger.debug("finishing request %s with %s", body, str(response))
+        self.sessions.delete(index)
+        logger.info("finishing request %s with %s", body, str(response))
